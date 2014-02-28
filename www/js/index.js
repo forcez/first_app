@@ -33,17 +33,20 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+        navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
     },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
-    }
+   function onSuccess(acceleration) {
+	 var accElement = 
+	 document.getElementById('accelerometerData');
+	 
+	 accElement.innerHTML = 
+	 'Acceleration X: ' + acceleration.x + '<br />' +
+	 'Acceleration Y: ' + acceleration.y + '<br />' +
+	 'Acceleration Z: ' + acceleration.z + '<br />' +
+	 'Timestamp: ' + acceleration.timestamp;
+	}
+   function onError(error) {
+	 // Handle any errors we may face
+	 alert('error');
+	}
 };
